@@ -16,8 +16,15 @@
 
 package sample.liquibase;
 
+import static org.mockito.Mockito.mock;
+
+import javax.sql.DataSource;
+
+import liquibase.integration.spring.SpringLiquibase;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class SampleLiquibaseApplication {
@@ -26,4 +33,11 @@ public class SampleLiquibaseApplication {
 		SpringApplication.run(SampleLiquibaseApplication.class, args);
 	}
 
+    @Bean
+    public SpringLiquibase getLiquibaseBean() {
+        SpringLiquibase springLiquibase = new SpringLiquibase();
+        springLiquibase.setDataSource(mock(DataSource.class));
+        springLiquibase.setChangeLog("classpath:db/changelog/db.changelog-master.yaml");
+        return springLiquibase;
+    }
 }
